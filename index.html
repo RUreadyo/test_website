@@ -97,13 +97,13 @@
   </div>
   <div class="panel" style="margin-top:18px">
     <div class="tag mono" style="color:var(--fast);font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Proprioception-reactive diffusion forcing</div>
-    <p class="note" style="margin:8px 0 12px;color:var(--dim);font-size:15px;font-family:var(--sans)">Fresh <b style="color:var(--fast)">proprioception</b> conditions every denoising step, while the <b style="color:var(--slow)">vision-language</b> feature updates asynchronously and the buffer streams out one action at a time.</p>
+    <p class="note" style="margin:8px 0 12px;color:var(--dim);font-size:16.5px;font-family:var(--sans)">Fresh <b style="color:var(--fast)">proprioception</b> conditions every denoising step, while the <b style="color:var(--slow)">vision-language</b> feature updates asynchronously and the buffer streams out one action at a time.</p>
     <canvas id="m1-canvas"></canvas>
   </div>
   <div class="panel" style="margin-top:18px">
     <div class="tag mono" style="color:var(--fast);font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Why the fast channel</div>
     <h3 style="margin:6px 0 2px">Actions should instantly react to forces/torques</h3>
-    <p class="note" style="margin:0 0 12px;color:var(--dim);font-size:14px;font-family:var(--sans)">Fingertip force shows grip strength and slip instantly, before the slow vision-language feature refreshes. Recorded demonstration, synchronized force. <b style="color:var(--ink)">Drag to scrub to any moment.</b></p>
+    <p class="note" style="margin:0 0 12px;color:var(--dim);font-size:16.5px;font-family:var(--sans)">Fingertip force shows grip strength and slip instantly, before the slow vision-language feature refreshes. Recorded demonstration, synchronized force. <b style="color:var(--ink)">Drag to scrub to any moment.</b></p>
     <div class="tabs" id="proprio-tabs" style="margin-bottom:14px"></div>
     <div class="pgrid">
       <div class="vidwrap" style="aspect-ratio:4/3">
@@ -123,14 +123,14 @@
   </div>
   <div class="panel" style="margin-top:18px">
     <div class="tag mono" style="color:var(--accent-d);font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Latency-adaptive noise schedule</div>
-    <p class="note" style="margin:8px 0 14px;color:var(--dim);font-size:15px;font-family:var(--sans)"><b style="color:var(--ink)">Drag the slider</b> to set the measured delay <span class="mono">d</span>. The schedule reshapes so that a single denoising step always emits <span class="mono">d</span> clean actions, keeping control real-time at any latency.</p>
+    <p class="note" style="margin:8px 0 14px;color:var(--dim);font-size:16.5px;font-family:var(--sans)"><b style="color:var(--ink)">Drag the slider</b> to set the measured delay <span class="mono">d</span>. The schedule reshapes so that a single denoising step always emits <span class="mono">d</span> clean actions, keeping control real-time at any latency.</p>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
       <span class="mono" style="font-size:13px;color:var(--accent-d);white-space:nowrap">delay d = <b id="m2-dval">2</b></span>
       <input type="range" id="m2-d" min="0" max="5" value="2" step="1" style="flex:1;accent-color:var(--accent)">
     </div>
     <canvas id="m2-canvas"></canvas>
   </div>
-  <p class="note" style="max-width:780px;margin:16px 0 0;color:var(--dim);font-size:15px;font-family:var(--sans)">This is a diffusion-forcing generalization of <b style="color:#e0568f">Train-Time RTC</b>: both clamp the same clean front of <span class="mono">d</span> in-flight actions, but RTC applies a single shared noise level to the rest, while the staircase's ramp and tail let one denoising step emit <span class="mono">d</span> clean actions.</p>
+  <p class="note" style="max-width:780px;margin:16px 0 0;color:var(--dim);font-size:16.5px;font-family:var(--sans)">This is a diffusion-forcing generalization of <b style="color:#e0568f">Train-Time RTC</b>: both clamp the same clean front of <span class="mono">d</span> in-flight actions, but RTC applies a single shared noise level to the rest, while the staircase's ramp and tail let one denoising step emit <span class="mono">d</span> clean actions.</p>
 
 </div></section>
 
