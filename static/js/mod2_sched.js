@@ -4,7 +4,7 @@
   const cv=document.getElementById("m2-canvas"); if(!cv) return;
   const ctx=cv.getContext("2d");
   const elD=document.getElementById("m2-d"), elV=document.getElementById("m2-dval");
-  const H=16, teal="#0e9e8f", amber="#e0932a", dim="#9aa3ae", ink="#2b3038", track="#eef1f5";
+  const H=16, teal="#0e9e8f", amber="#e0932a", dim="#222831", ink="#2b3038", track="#eef1f5";
   const S=1.4, STEP=1.7, DWELL=1.05; let d=2, t=0, last=null, W=0, Ht=196;   // one denoising step per STEP seconds: hold (DWELL) then a single discrete slide-by-d
   function sched(i,dd){ if(dd<=0) return Math.max(0,1-(i+1)/H); if(i<dd) return 1; if(i<H-dd){const q=H-2*dd; return 1-(i-dd+1)/(q+1);} return 0; }
   function tealFill(c){const a=[0xee,0xf1,0xf5],b=[0x0e,0x9e,0x8f];return`rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*c)).join(",")})`;}

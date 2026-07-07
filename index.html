@@ -116,7 +116,7 @@
   <p id="mod2" class="eyebrow" style="margin-top:56px;color:var(--accent);scroll-margin-top:70px">Modification 2 · latency-adaptive schedule</p>
   <h3 style="font-size:23px;letter-spacing:-.02em;margin:0 0 6px">The staircase: one model, any latency</h3>
   <p class="lead" style="margin-top:0">Proprioception-reactive diffusion forcing itself is not enough: it assumes the denoising step is instant (delay <span class="mono">d = 0</span>), re-planning every control step. Real inference takes <span class="mono">d &gt; 0</span> steps, and <span class="mono">d</span> varies with model, GPU, and network, so applying it naively would stall the robot at every step while it waits for the forward pass. πR²'s latency-adaptive schedule absorbs that delay as a staircase with three regions:</p>
-  <div class="cards" style="margin-top:18px;grid-template-columns:repeat(3,1fr)">
+  <div class="cards" style="margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">
     <div class="card"><div class="tag" style="color:var(--accent-d)">Clean front &middot; <span style="text-transform:none">d</span></div><h3>In-flight actions</h3><p>The <span class="mono">d</span> actions already executing, clamped clean as inpaint conditioning.</p></div>
     <div class="card"><div class="tag" style="color:var(--accent-d)">Ramp</div><h3>Clean to noise</h3><p>The interior ramps clean-to-noise, so one step emits <span class="mono">d</span> finished actions.</p></div>
     <div class="card"><div class="tag" style="color:var(--accent-d)">Noise tail &middot; <span style="text-transform:none">d</span></div><h3>Fresh slots</h3><p><span class="mono">d</span> fresh-noise slots appended at the back as the buffer slides.</p></div>

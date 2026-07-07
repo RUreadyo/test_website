@@ -54,7 +54,7 @@
     const X = i => padL + plotW * (i / (XS.length - 1));
     const Y = v => padT + plotH * (1 - v / yMax);
 
-    ctx.strokeStyle = "#e9ecf1"; ctx.fillStyle = "#69727f";
+    ctx.strokeStyle = "#e9ecf1"; ctx.fillStyle = "#222831";
     ctx.font = "11px ui-monospace,monospace"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
     for (let t = 0; t <= 2; t++) { const g = yMax * t / 2, y = Y(g); ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke(); ctx.fillText(g.toFixed(2), padL - 8, y); }
     ctx.textAlign = "center"; ctx.textBaseline = "top";
@@ -72,7 +72,7 @@
       ctx.globalAlpha = 1;
     });
     ctx.save(); ctx.translate(12, padT + plotH / 2); ctx.rotate(-Math.PI / 2);
-    ctx.fillStyle = "#5d6b7d"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillStyle = "#222831"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     ctx.font = "11px ui-monospace,monospace"; ctx.fillText("success rate", 0, 0); ctx.restore();
   }
 

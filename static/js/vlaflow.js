@@ -3,7 +3,7 @@ function mkFlow(opts){
   const cv=document.getElementById(opts.canvas); if(!cv) return;
   const ctx=cv.getContext("2d");
   const cc=document.getElementById("flow-compare"),cctx=cc&&cc.getContext("2d");
-  const ink="#2b3038",dim="#9aa3ae",blue="#2f6df0",teal="#0e9e8f",amber="#e0932a",red="#c2452f",green="#16a34a",pink="#e0568f",arw="#7b74e0",line="#dfe4ea",bg="#ffffff";
+  const ink="#2b3038",dim="#222831",blue="#2f6df0",teal="#0e9e8f",amber="#e0932a",red="#c2452f",green="#16a34a",pink="#e0568f",arw="#7b74e0",line="#dfe4ea",bg="#ffffff";
   const K=4,H=16,hStd=8,DVLM=2,lerp=(a,b,t)=>a+(b-a)*t;   // DVLM = synchronous VLM cost (ticks)
   let dd=1,dRTC=6,dMod2=3,dPiR2=2;                        // inference delay d (slider) sets the in-flight fronts
   function recompD(){dRTC=Math.min(H-2,K*dd+DVLM);dMod2=Math.min(H-2,dd+DVLM);dPiR2=Math.max(1,dd);}   // RTC K steps+VLM ; Mod2 1 step+sync VLM ; piR2 1 step (async VLM)
@@ -35,9 +35,9 @@ function mkFlow(opts){
     x.textAlign="right";x.fillStyle=dim;x.font="600 9px Inter,sans-serif";x.fillText("now",trackX+trackW,top+R.length*rowH+4);x.textAlign="left";
   }
 
-  function box(r,title,sub,color,active){const [x,y,w,h]=r;
-    ctx.save();ctx.shadowColor=active?color:"rgba(30,40,60,0.13)";ctx.shadowBlur=active?15:5;ctx.shadowOffsetY=active?0:1.5;rr(x,y,w,h,12);ctx.fillStyle="#fff";ctx.fill();ctx.restore();
-    rr(x,y,w,h,12);ctx.fillStyle="#fff";ctx.fill();ctx.lineWidth=active?2.2:1.4;ctx.strokeStyle=active?color:line;ctx.stroke();
+  function box(r,title,sub,color,active){const [x,y,w,h]=r;   // idle boxes keep a milder version of their own colour (no grey)
+    ctx.save();ctx.shadowColor=active?color:"rgba(24,32,52,0.16)";ctx.shadowBlur=active?15:7;ctx.shadowOffsetY=active?0:1.5;rr(x,y,w,h,12);ctx.fillStyle="#fff";ctx.fill();ctx.restore();
+    rr(x,y,w,h,12);ctx.fillStyle="#fff";ctx.fill();ctx.lineWidth=active?2.4:1.6;ctx.strokeStyle=active?color:color+"aa";ctx.stroke();
     ctx.textAlign="center";
     if(title){ctx.fillStyle=color;ctx.font="700 13px Inter,sans-serif";ctx.fillText(title,x+w/2,y+h/2+(sub?-1:5),w-14);}
     if(sub){ctx.fillStyle=dim;ctx.font="600 10px Inter,sans-serif";ctx.fillText(sub,x+w/2,y+h/2+15,w-14);}
@@ -94,7 +94,7 @@ function mkFlow(opts){
   }
 
   // ===== Mode 0: standard VLA =====
-  function drawStd(){const W=Wl,Ht=Hl;ctx.clearRect(0,0,W,Ht);ctx.fillStyle=bg;ctx.fillRect(0,0,W,Ht);
+  function drawStd(){const W=Wl,Ht=Hl;ctx.clearRect(0,0,W,Ht);if(!window.__flowTransparent){ctx.fillStyle=bg;ctx.fillRect(0,0,W,Ht);}
     const padX=14,aw=24,by=60,bh=82,avail=W-2*padX-3*aw,u=avail/4.85;
     const w0=1.2*u,w1=u,w2=1.55*u,w3=1.1*u,x0=padX,x1=x0+w0+aw,x2=x1+w1+aw,x3=x2+w2+aw,cy=by+bh/2;
     const [ph,f]=phaseAt(PH0,t);
@@ -127,7 +127,7 @@ function mkFlow(opts){
   }
 
   // ===== Modes 1 & 2: piR2 =====
-  function drawMod(m){const W=Wl,Ht=Hl;ctx.clearRect(0,0,W,Ht);ctx.fillStyle=bg;ctx.fillRect(0,0,W,Ht);
+  function drawMod(m){const W=Wl,Ht=Hl;ctx.clearRect(0,0,W,Ht);if(!window.__flowTransparent){ctx.fillStyle=bg;ctx.fillRect(0,0,W,Ht);}
     const padX=14,aw=24,by=100,bh=84,avail=W-2*padX-2*aw,u=avail/4.6,pw=1.1*u,hw=2.1*u,ew=1.4*u;
     const px=padX,hx=px+pw+aw,ex=hx+hw+aw,cy=by+bh/2;
     const cp=t%1;                                                     // one call per cycle: hold, advance one notch, hold
@@ -173,7 +173,7 @@ function mkFlow(opts){
   }
 
   // ===== Modes 2 & 3: clamped-front pipeline with SYNC VLM.  m=2 Mod-2 staircase (1 step); m=3 Train-Time RTC (K steps) =====
-  function drawClamp(m){const W=Wl,Ht=Hl;ctx.clearRect(0,0,W,Ht);ctx.fillStyle=bg;ctx.fillRect(0,0,W,Ht);
+  function drawClamp(m){const W=Wl,Ht=Hl;ctx.clearRect(0,0,W,Ht);if(!window.__flowTransparent){ctx.fillStyle=bg;ctx.fillRect(0,0,W,Ht);}
     const padX=14,aw=24,by=60,bh=82,avail=W-2*padX-3*aw,u=avail/4.85;
     const w0=1.2*u,w1=u,w2=1.55*u,w3=1.1*u,x0=padX,x1=x0+w0+aw,x2=x1+w1+aw,x3=x2+w2+aw,cy=by+bh/2;
     const rtc=(m===3),d=rtc?dRTC:dMod2,ac=teal,denT=rtc?4:1;   // denoise box teal in every method (same component, same colour)
