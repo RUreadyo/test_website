@@ -214,7 +214,11 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--faint);font-s
 .hscroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;max-width:100%;border-radius:12px}
 .hscroll>canvas{border-radius:12px}
 @media(max-width:600px){
-  .hscroll>canvas{min-width:600px}
+  /* give each wide diagram a comfortable render width and scroll it horizontally */
+  #vla-canvas,#m1-canvas{min-width:820px}      /* inference pipeline: 4 boxes + labels */
+  #m2-canvas{min-width:660px}                  /* latency-adaptive staircase */
+  #results-canvas{min-width:660px}             /* results bar chart */
+  .hswide{min-width:900px}                      /* proprioception + GT-action plot */
   #flow-seg{flex-direction:column;align-items:stretch;gap:8px}
   #flow-seg .segbtn{width:100%;margin-left:0!important;border:1.5px solid var(--line);border-radius:10px}
   #flow-seg .segbtn.active{border-color:currentColor}
