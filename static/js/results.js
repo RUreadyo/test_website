@@ -19,7 +19,7 @@
     sr:   { vals: [[11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10]], den: [20, 20, 20], unit: "/20" },
     prog: { vals: [[56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55]], den: [80, 40, 80], unit: "subgoals" },
   };
-  let metric = "prog";
+  let metric = "sr";
 
   function resize() {
     const w = c.clientWidth, h = 300, dpr = window.devicePixelRatio || 1;
