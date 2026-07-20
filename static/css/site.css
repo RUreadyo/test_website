@@ -208,3 +208,14 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--faint);font-s
 .vidwrap .ph{overflow-wrap:anywhere;word-break:break-word}
 .controls input[type=range]{max-width:100%}
 @media(max-width:520px){.controls{gap:12px}}
+
+/* mobile: keep wide canvas diagrams legible by scrolling them horizontally
+   instead of shrinking to unreadable, and stack the inference-mode toggle */
+.hscroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;max-width:100%;border-radius:12px}
+.hscroll>canvas{border-radius:12px}
+@media(max-width:600px){
+  .hscroll>canvas{min-width:600px}
+  #flow-seg{flex-direction:column;align-items:stretch;gap:8px}
+  #flow-seg .segbtn{width:100%;margin-left:0!important;border:1.5px solid var(--line);border-radius:10px}
+  #flow-seg .segbtn.active{border-color:currentColor}
+}

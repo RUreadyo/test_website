@@ -45,8 +45,8 @@ function mkFlow(opts){
   const ORDER=["o2v","vlm","v2d","den","d2e","exe","loop"];
   function apr(ap,ph,f){const ai=ORDER.indexOf(ap),ci=ORDER.indexOf(ph);return ci===ai?f:0;}   // coloured only while the pulse is on this arrow; grey otherwise
   function arrow(x1,y,x2,color,prog){prog=(prog==null)?0:Math.max(0,Math.min(1,prog));
-    ctx.strokeStyle="#c7cdd5";ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2-6,y);ctx.stroke();
-    ctx.fillStyle="#c7cdd5";ctx.beginPath();ctx.moveTo(x2,y);ctx.lineTo(x2-8,y-5);ctx.lineTo(x2-8,y+5);ctx.closePath();ctx.fill();
+    ctx.strokeStyle="#6b7686";ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2-6,y);ctx.stroke();
+    ctx.fillStyle="#6b7686";ctx.beginPath();ctx.moveTo(x2,y);ctx.lineTo(x2-8,y-5);ctx.lineTo(x2-8,y+5);ctx.closePath();ctx.fill();
     if(prog>0.02){const xe=x1+(x2-6-x1)*prog;ctx.strokeStyle=color;ctx.lineWidth=2.6;ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(xe,y);ctx.stroke();
       if(prog<0.82)dot(xe,y,color);
       else{ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(x2,y);ctx.lineTo(x2-8,y-5);ctx.lineTo(x2-8,y+5);ctx.closePath();ctx.fill();}}}
@@ -57,7 +57,7 @@ function mkFlow(opts){
   function ahead(a,b,color){const ang=Math.atan2(b[1]-a[1],b[0]-a[0]);ctx.save();ctx.translate(b[0],b[1]);ctx.rotate(ang);ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(1,0);ctx.lineTo(-8,-4.5);ctx.lineTo(-8,4.5);ctx.closePath();ctx.fill();ctx.restore();}
   // multi-segment arrow: grey when idle, coloured up to `prog` with a leading dot when active
   function arrowPath(pts,color,prog,noBase,keepDot){prog=(prog==null)?0:Math.max(0,Math.min(1,prog));const n=pts.length;
-    if(!noBase){ctx.strokeStyle="#c7cdd5";ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<n;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.stroke();ahead(pts[n-2],pts[n-1],"#c7cdd5");}
+    if(!noBase){ctx.strokeStyle="#6b7686";ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<n;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.stroke();ahead(pts[n-2],pts[n-1],"#6b7686");}
     if(prog>0.02){let tot=0,segs=[];for(let i=0;i<n-1;i++){const l=Math.hypot(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1]);segs.push(l);tot+=l;}
       const tg=prog*tot;let acc=0,dx=pts[0][0],dy=pts[0][1];
       ctx.strokeStyle=color;ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
@@ -223,6 +223,7 @@ function mkFlow(opts){
   if(opts.jump){cv.addEventListener("click",e=>{if(mode!==4||!hit)return;const r=cv.getBoundingClientRect(),lx=(e.clientX-r.left)*Wl/r.width,ly=(e.clientY-r.top)*Hl/r.height,inR=b=>b&&lx>=b[0]&&lx<=b[0]+b[2]&&ly>=b[1]&&ly<=b[1]+b[3],id=inR(hit.m2)?"mod2":(inR(hit.m1)||inR(hit.v1))?"mod1":null;if(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});}});
     cv.addEventListener("mousemove",e=>{if(mode!==4||!hit){hov=null;return;}const r=cv.getBoundingClientRect(),lx=(e.clientX-r.left)*Wl/r.width,ly=(e.clientY-r.top)*Hl/r.height,inR=b=>b&&lx>=b[0]&&lx<=b[0]+b[2]&&ly>=b[1]&&ly<=b[1]+b[3];hov=inR(hit.m2)?"m2":(inR(hit.m1)||inR(hit.v1))?"m1":null;cv.style.cursor=hov?"pointer":"default";});
     cv.addEventListener("mouseleave",()=>{hov=null;cv.style.cursor="default";});}
+  window.__resetFlow=function(){t=0;ct=0;last=null;draw();cdraw();};   // headless capture: start each clip at the cycle beginning (obs->VLM)
   setCap();resize();cresize();addEventListener("resize",()=>{resize();cresize();});requestAnimationFrame(frame);
 }
 mkFlow({canvas:"vla-canvas",seg:"flow-seg",cap:"flow-caption",jump:true});

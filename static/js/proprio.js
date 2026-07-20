@@ -55,11 +55,18 @@
 
     // vision lane: one cached-vision thumbnail per segment, placed at that segment
     const nSeg = REGIONS.length, thW = nSeg ? Math.min(56, (plotW - (nSeg - 1) * 8) / nSeg) : 0, thH = thW * 0.72, laneY = 20;
-    ctx.textAlign = "left"; ctx.fillStyle = cfg.slow; ctx.fillText("SLOW · vision-language feature (async)", padL, 11);
     let activeSeg = -1;
     for (let i = 0; i < nSeg; i++) if (p >= REGIONS[i][0]) activeSeg = i;
+    // de-collide thumbnail + caption centers so wide captions never overlap
+    ctx.font = "600 13px ui-monospace,monospace";
+    const segHalf = REGIONS.map(r => Math.max(thW, ctx.measureText(r[2]).width + 12) / 2);
+    const segX = REGIONS.map(r => X((r[0] + r[1]) / 2));
+    for (let i = 0; i < nSeg; i++) {
+      segX[i] = Math.max(segX[i], padL + segHalf[i]);
+      if (i > 0) segX[i] = Math.max(segX[i], segX[i - 1] + segHalf[i - 1] + segHalf[i] + 4);
+    }
     REGIONS.forEach((r, i) => {
-      const cx = X((r[0] + r[1]) / 2), x = Math.min(Math.max(cx - thW / 2, padL), W - padR - thW), on = i === activeSeg, im = thumbs[i];
+      const x = segX[i] - thW / 2, on = i === activeSeg, im = thumbs[i];
       ctx.globalAlpha = on ? 1 : 0.42;
       if (im && im.complete && im.naturalWidth) ctx.drawImage(im, x, laneY, thW, thH);
       else { ctx.fillStyle = cfg.grid; ctx.fillRect(x, laneY, thW, thH); }
@@ -102,7 +109,7 @@
     }
 
     REGIONS.forEach((r, ri) => {
-      const a = r[0], b = r[1], lab = r[2], xa = X(a), xb = X(b), xm = (xa + xb) / 2;
+      const a = r[0], b = r[1], lab = r[2], xa = X(a), xb = X(b);
       const passed = p >= a, active = p >= a && p <= b, col = passed ? cfg.good : cfg.dim;
       // shaded band + boundary lines inside the plot
       ctx.fillStyle = active ? "rgba(14,158,143,0.12)" : "rgba(120,134,150,0.045)";
@@ -110,11 +117,10 @@
       ctx.strokeStyle = passed ? "rgba(14,158,143,0.55)" : "#dde2e9"; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
       ctx.beginPath(); ctx.moveTo(xa, plotTop); ctx.lineTo(xa, plotTop + plotH); ctx.moveTo(xb, plotTop); ctx.lineTo(xb, plotTop + plotH); ctx.stroke(); ctx.setLineDash([]);
       // caption directly under this segment's thumbnail, at a consistent height
-      ctx.font = (active ? "700 " : "600 ") + "9.5px ui-monospace,monospace";
+      ctx.font = (active ? "700 " : "600 ") + "13px ui-monospace,monospace";
       const tw = ctx.measureText(lab).width;
-      const tcx = Math.min(Math.max(xm - thW / 2, padL), W - padR - thW) + thW / 2;   // matches thumbnail center
-      const lx = Math.max(padL + tw / 2, Math.min(W - padR - tw / 2, tcx));
-      ctx.fillStyle = "rgba(247,248,250,0.96)"; ctx.beginPath(); ctx.roundRect(lx - tw / 2 - 4, capY - 7, tw + 8, 14, 4); ctx.fill();
+      const lx = segX[ri];   // de-collided center, matches thumbnail
+      ctx.fillStyle = "rgba(247,248,250,0.96)"; ctx.beginPath(); ctx.roundRect(lx - tw / 2 - 6, capY - 9, tw + 12, 19, 5); ctx.fill();
       ctx.fillStyle = col; ctx.textAlign = "center"; ctx.fillText(lab, lx, capY);
     });
 
@@ -122,7 +128,7 @@
     ctx.strokeStyle = cfg.fast; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(px, plotTop - 4); ctx.lineTo(px, plotTop + plotH); ctx.stroke();
     ctx.beginPath(); ctx.arc(px, Y(force(p)), 4, 0, 7); ctx.fillStyle = cfg.fast; ctx.fill();
     // legend: index vs thumb
-    ctx.textAlign = "left"; ctx.font = "600 11px ui-monospace,monospace";
+    ctx.textAlign = "left"; ctx.font = "600 14px ui-monospace,monospace";
     let lx = padL;
     ctx.fillStyle = cfg.fast; ctx.beginPath(); ctx.arc(lx + 4, H - 9, 4, 0, 7); ctx.fill();
     ctx.fillStyle = cfg.dim; ctx.fillText("index", lx + 12, H - 9); lx += 12 + ctx.measureText("index").width + 14;
@@ -143,7 +149,6 @@
         ctx.fillStyle = cfg.dim; ctx.fillText(label, lx + 22, H - 9); lx += 22 + ctx.measureText(label).width + 14;
       });
     }
-    ctx.textAlign = "right"; ctx.fillStyle = cfg.dim; ctx.fillText("drag to scrub", W - padR, H - 9);
   }
 
   // drag-to-scrub

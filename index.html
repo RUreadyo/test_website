@@ -68,7 +68,7 @@
       <button class="segbtn" data-m="3" style="color:#e0568f">Train-Time RTC</button>
       <button class="segbtn" data-m="4" style="margin-left:12px;color:var(--accent-d);font-weight:700">πR² (ours)</button>
     </div>
-    <canvas id="vla-canvas"></canvas>
+    <div class="hscroll"><canvas id="vla-canvas"></canvas></div>
     <p class="note" style="margin:8px 0 0;color:var(--dim);text-align:center;font-size:15px"><span class="mono">d</span> = latency of one denoising step &middot; <span class="mono">d_vlm</span> = latency of the VLM forward (both in control steps)</p>
   </div>
   <p class="note" id="flow-caption" style="max-width:880px;margin:12px auto 0;color:var(--dim);text-align:center;min-height:40px;font-size:16.5px"></p>
@@ -98,7 +98,7 @@
   <div class="panel" style="margin-top:18px">
     <div class="tag mono" style="color:var(--fast);font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Proprioception-reactive diffusion forcing</div>
     <p class="note" style="margin:8px 0 12px;color:var(--dim);font-size:16.5px;font-family:var(--sans)">Fresh <b style="color:var(--fast)">proprioception</b> conditions every denoising step, while the <b style="color:var(--slow)">vision-language</b> feature updates asynchronously and the buffer streams out one action at a time.</p>
-    <canvas id="m1-canvas"></canvas>
+    <div class="hscroll"><canvas id="m1-canvas"></canvas></div>
   </div>
   <div class="panel" style="margin-top:18px">
     <div class="tag mono" style="color:var(--fast);font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Why the fast channel</div>
@@ -128,7 +128,7 @@
       <span class="mono" style="font-size:13px;color:var(--accent-d);white-space:nowrap">delay d = <b id="m2-dval">2</b></span>
       <input type="range" id="m2-d" min="0" max="5" value="2" step="1" style="flex:1;accent-color:var(--accent)">
     </div>
-    <canvas id="m2-canvas"></canvas>
+    <div class="hscroll"><canvas id="m2-canvas"></canvas></div>
   </div>
   <p class="note" style="max-width:780px;margin:16px 0 0;color:var(--dim);font-size:16.5px;font-family:var(--sans)">This is a diffusion-forcing generalization of <b style="color:#e0568f">Train-Time RTC</b>: both clamp the same clean front of <span class="mono">d</span> in-flight actions, but RTC applies a single shared noise level to the rest, while the staircase's ramp and tail let one denoising step emit <span class="mono">d</span> clean actions.</p>
 
@@ -184,7 +184,7 @@
         <button class="segbtn" data-m="sr">Success rate</button>
         <button class="segbtn active" data-m="prog">Progress (subgoals)</button>
       </div>
-      <canvas id="results-canvas"></canvas>
+      <div class="hscroll"><canvas id="results-canvas"></canvas></div>
       <div class="legend" style="margin-top:6px">
         <span class="k"><span class="dot" style="background:#b8c0cc"></span> Flow, Synchronous</span>
         <span class="k"><span class="dot" style="background:#7f8b9c"></span> Naive Async (TE)</span>
