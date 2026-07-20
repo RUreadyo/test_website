@@ -172,9 +172,11 @@ canvas{display:block;width:100%;border-radius:12px;background:var(--bg-alt)}
 .fsbtn{position:absolute;bottom:8px;right:8px;width:30px;height:30px;border-radius:7px;border:0;background:rgba(17,20,24,.6);color:#fff;font-size:15px;cursor:pointer;z-index:3;opacity:0;transition:opacity .15s}
 .gvid:hover .fsbtn,.vcell:hover .fsbtn{opacity:1}
 .gvid:fullscreen,.vcell:fullscreen{background:#000;width:100vw;height:100vh}
-.gvid:fullscreen video,.vcell:fullscreen video{width:100vw;height:100vh;object-fit:fill}
+.gvid:fullscreen video,.vcell:fullscreen video{width:100vw;height:100vh;object-fit:contain}
 .gvid:fullscreen .grid-badges{inset:0}
 .vcell:fullscreen .lab{position:absolute;bottom:14px;left:0;right:0;z-index:3}
+.vcell:fullscreen .sbadge{width:72px;height:72px;font-size:38px;top:22px;right:22px}
+.vcell:fullscreen .fsbtn,.gvid:fullscreen .fsbtn{width:40px;height:40px;font-size:20px}
 /* per-tile badges over a 5x4 rollout grid */
 .gvid{position:relative;line-height:0}
 .grid-badges{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(4,1fr);pointer-events:none;border-radius:10px;overflow:hidden;opacity:0;transition:opacity .3s}
