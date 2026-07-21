@@ -49,22 +49,9 @@
     const upd = () => { const d = vid.duration; el.classList.toggle("show", d && vid.currentTime >= d * 0.82); };
     vid.addEventListener("timeupdate", upd); vid.addEventListener("seeked", upd); upd();
   };
-  // Fullscreen the CONTAINER (not the bare video) so the ✓/✗ overlay stays visible.
-  // Native video fullscreen only shows the video pixels, hiding the DOM badge.
-  const addFsBtn = (wrap, vid) => {
-    if (vid) { try { vid.disablePictureInPicture = true; } catch (e) {} vid.setAttribute("controlsList", "nofullscreen"); }
-    const btn = document.createElement("button");
-    btn.className = "fsbtn"; btn.type = "button"; btn.textContent = "⛶"; btn.setAttribute("aria-label", "Fullscreen");
-    btn.addEventListener("click", e => {
-      e.preventDefault(); e.stopPropagation();
-      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-      if (fsEl) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
-      const req = wrap.requestFullscreen || wrap.webkitRequestFullscreen;
-      if (req) { try { req.call(wrap); return; } catch (e) {} }
-      if (vid && vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();   // iOS fallback (no overlay)
-    });
-    wrap.appendChild(btn);
-  };
+  // Keep the single native fullscreen button (its own control, doesn't block the
+  // scrubber). The DOM ✓/✗ overlay isn't shown in native video fullscreen.
+  const addFsBtn = (wrap, vid) => { if (vid) { try { vid.disablePictureInPicture = true; } catch (e) {} } };
 
   // 2x2 main comparison: cell[data-task][data-method]
   document.querySelectorAll(".vcell[data-task][data-method]").forEach(cell => {
