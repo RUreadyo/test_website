@@ -231,3 +231,6 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--faint);font-s
 
 /* delay/sim plot: draw straight on the white panel (no grey canvas box) */
 #delay-canvas{background:transparent}
+
+/* teaser reel phase headline (failures -> ours) */
+.reel-phase{font-size:clamp(19px,2.5vw,27px);font-weight:700;letter-spacing:-.01em}

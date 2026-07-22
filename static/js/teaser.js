@@ -1,27 +1,32 @@
-/* piR2 teaser reel: play the ours rollouts one after another in a single frame.
-   For a window of each clip, zoom in to highlight the closed-loop reactive moment.
-   The zoom windows (z = [startFrac, endFrac] of the clip) and focus point (o =
-   transform-origin) are placeholders -- adjust per clip to the real reactive beat. */
+/* piR2 teaser reel: a short narrative in one frame.
+   Phase 1 -- standard VLAs fail (slow, open-loop, not reactive; red X burned in).
+   Phase 2 -- piR2 reacts and succeeds (green check). Loops back to the top. */
 (function () {
   "use strict";
   const v = document.getElementById("teaser-reel");
   if (!v) return;
-  const lab = document.getElementById("reel-lab"), zl = document.getElementById("reel-zoom");
-  const list = [
-    { src: "static/videos/box_ours.mp4",   name: "Insert Box",    z: [0.50, 0.72], o: "50% 45%" },
-    { src: "static/videos/book_ours.mp4",  name: "Tidy Up Book",  z: [0.45, 0.68], o: "50% 45%" },
-    { src: "static/videos/spill_ours.mp4", name: "Don't Spill",   z: [0.55, 0.80], o: "55% 45%" },
+  const lab = document.getElementById("reel-lab"), phase = document.getElementById("reel-phase");
+  const V = "static/videos/teaser/";
+  const FAIL_HEAD = "Vision-Language-Action policies are slow and not reactive — they fail on contact.";
+  const OURS_HEAD = "πR² makes them reactive and real-time.";
+  const REEL = [
+    { src: "fail_box.mp4",   tag: "Standard VLA", fail: true,  head: FAIL_HEAD },
+    { src: "fail_spill.mp4", tag: "Standard VLA", fail: true,  head: FAIL_HEAD },
+    { src: "fail_catch.mp4", tag: "Standard VLA", fail: true,  head: FAIL_HEAD },
+    { src: "ours_box.mp4",   tag: "πR² (ours)", fail: false, head: OURS_HEAD },
+    { src: "ours_spill.mp4", tag: "πR² (ours)", fail: false, head: OURS_HEAD },
+    { src: "ours_catch.mp4", tag: "πR² (ours)", fail: false, head: OURS_HEAD },
   ];
-  const ZOOM = false;   // re-enable once real reactive windows (z = [startFrac,endFrac]) are set per clip
   let i = 0;
-  function load() { const it = list[i]; v.src = it.src; lab.textContent = it.name; v.style.transform = "none"; if (zl) zl.style.display = "none"; v.play().catch(() => {}); }
-  v.addEventListener("ended", () => { i = (i + 1) % list.length; load(); });
-  if (ZOOM) v.addEventListener("timeupdate", () => {
-    const it = list[i], d = v.duration; if (!d) return;
-    const f = v.currentTime / d, on = f >= it.z[0] && f <= it.z[1];
-    v.style.transformOrigin = it.o; v.style.transform = on ? "scale(1.55)" : "none";
-    if (zl) zl.style.display = on ? "" : "none";
-  });
+  function load() {
+    const it = REEL[i];
+    v.src = V + it.src;
+    lab.textContent = it.tag;
+    lab.style.background = it.fail ? "rgba(194,69,47,.92)" : "rgba(14,158,143,.92)";
+    if (phase) { phase.textContent = it.head; phase.style.color = it.fail ? "#c2452f" : "var(--accent-d)"; }
+    v.play().catch(() => {});
+  }
+  v.addEventListener("ended", () => { i = (i + 1) % REEL.length; load(); });
   v.addEventListener("canplay", () => v.play().catch(() => {}));
   load();
 })();
