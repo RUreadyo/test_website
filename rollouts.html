@@ -30,6 +30,7 @@
     <button class="tab active" data-tab="roll" data-key="box">Insert Box</button>
     <button class="tab" data-tab="roll" data-key="book">Tidy Up Book</button>
     <button class="tab" data-tab="roll" data-key="spill">Don't Spill</button>
+    <button class="tab" data-tab="roll" data-key="catch">Catch</button>
 </div>
 
   <div data-tabgroup="roll">
@@ -55,6 +56,14 @@
         <div class="gv" data-task="spill" data-method="sync"><div class="lab">Flow, Synchronous</div><video preload="none" poster="static/videos/posters/spill_sync_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/spill_sync_grid.mp4" type="video/mp4"></video></div>
         <div class="gv" data-task="spill" data-method="async"><div class="lab">Naive Async (TE)</div><video preload="none" poster="static/videos/posters/spill_async_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/spill_async_grid.mp4" type="video/mp4"></video></div>
         <div class="gv" data-task="spill" data-method="rtc"><div class="lab">Train-Time RTC</div><video preload="none" poster="static/videos/posters/spill_rtc_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/spill_rtc_grid.mp4" type="video/mp4"></video></div>
+      </div>
+    </div>
+    <div data-panel="roll" data-key="catch" style="display:none">
+      <div class="rollblock">
+        <div class="gv ours" data-task="catch" data-method="ours"><div class="lab">πR² (ours)</div><video preload="none" poster="static/videos/posters/catch_ours_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/catch_ours_grid.mp4" type="video/mp4"></video></div>
+        <div class="gv" data-task="catch" data-method="sync"><div class="lab">Flow, Synchronous</div><video preload="none" poster="static/videos/posters/catch_sync_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/catch_sync_grid.mp4" type="video/mp4"></video></div>
+        <div class="gv" data-task="catch" data-method="async"><div class="lab">Naive Async (TE)</div><video preload="none" poster="static/videos/posters/catch_async_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/catch_async_grid.mp4" type="video/mp4"></video></div>
+        <div class="gv" data-task="catch" data-method="rtc"><div class="lab">Train-Time RTC</div><video preload="none" poster="static/videos/posters/catch_rtc_grid.jpg" controls muted loop playsinline><source src="static/videos/grid/catch_rtc_grid.mp4" type="video/mp4"></video></div>
       </div>
     </div>
   </div>

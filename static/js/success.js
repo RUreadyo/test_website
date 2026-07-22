@@ -18,6 +18,12 @@ window.SUCCESS = {
     rtc:   [1,0,1,1,0,0,1,1,0,0,1,1,1,0,0,0,1,0,1,0],
     ours:  [1,1,0,1,0,1,1,0,1,1,0,1,1,1,1,1,1,1,1,1],
   },
+  catch: {
+    sync:  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    async: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    rtc:   [0,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1],
+    ours:  [1,1,1,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,0],
+  },
 };
 /* main 2x2 rollout index (1-based) chosen per task: ours succeeds, baselines fail */
-window.MAIN_N = { spill: 1, book: 11, box: { ours: 1, sync: 6, async: 6, rtc: 6 } };
+window.MAIN_N = { spill: 1, book: 11, box: { ours: 1, sync: 6, async: 6, rtc: 6 }, catch: 1 };

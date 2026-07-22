@@ -10,14 +10,20 @@
   const C_IDX = "#0e9e8f", C_ACT = "#7c5cff", DIM = "#cfd6df", ACT_DIM = "rgba(124,92,255,.26)";
   const PADX = 10, BAND = 16;
 
-  let F = null, GA = null, REG = [], L = 0;
+  let F = null, GA = null, REG = [], L = 0, SP = 0;
   function load() {
     if (L) return true;
     const d = window.PROPRIO_DATA, t = d && (d.book || d.box || d.spill);
     if (!t || !t.force || !t.force.length) return false;
     const nz = a => { const m = Math.max.apply(null, a) || 1; return a.map(v => v / m); };   // per-trace normalize so the correlation is visible despite different amplitudes
     const ga = t.gt_actions && t.gt_actions["hand: index j1"];
-    F = nz(t.force); GA = ga ? nz(ga) : null; REG = t.regions || []; L = F.length; return true;
+    F = nz(t.force); GA = ga ? nz(ga) : null; REG = t.regions || []; L = F.length;
+    // split the signal across the two canvases at a quiet gap near the middle, so no
+    // grasp region (or its label) is cut across the piR2 title
+    const mid = (L - 1) / 2, inReg = x => REG.some(r => x >= r[0] && x <= r[1]);
+    SP = mid;
+    if (inReg(mid)) for (let dd = 1; dd < L / 2; dd++) { if (!inReg(mid - dd)) { SP = mid - dd; break; } if (!inReg(mid + dd)) { SP = mid + dd; break; } }
+    return true;
   }
   const at = (arr, i) => { const x = Math.max(0, Math.min(L - 1, i)), a = Math.floor(x), b = Math.min(L - 1, a + 1); return 0.1 + 0.8 * (arr[a] + (arr[b] - arr[a]) * (x - a)); };
 
@@ -29,7 +35,7 @@
 
   function drawWave(o, ts) {
     const ctx = o.ctx, W = o.c.clientWidth, H = o.c.clientHeight, { mid, amp } = geo(H);
-    const span = (L - 1) / n, i0 = o.k * span, i1 = (o.k + 1) * span;          // this canvas covers signal [i0, i1]
+    const i0 = o.k === 0 ? 0 : SP, i1 = o.k === 0 ? SP : (L - 1);               // split at the quiet gap SP, not the exact middle
     const x = i => PADX + (W - 2 * PADX) * ((i - i0) / (i1 - i0));
     const y = (arr, i) => mid - (at(arr, i) - 0.5) * amp;
     ctx.clearRect(0, 0, W, H);

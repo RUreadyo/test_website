@@ -7,7 +7,7 @@
   const c = document.getElementById("results-canvas");
   if (!c) return;
   const ctx = c.getContext("2d");
-  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill"];
+  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill", "Catch"];
   const METHODS = [
     { n: "Flow, Synchronous", col: "#b8c0cc" },
     { n: "Naive Async (TE)", col: "#7f8b9c" },
@@ -16,8 +16,8 @@
   ];
   // per task [Spill, Book, Box] x [Sync, NaiveAsync, RTC, ours]
   const DATA = {
-    sr:   { vals: [[11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10]], den: [20, 20, 20], unit: "/20" },
-    prog: { vals: [[56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55]], den: [80, 40, 80], unit: "subgoals" },
+    sr:   { vals: [[11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10], [0, 0, 7, 7]], den: [20, 20, 20, 20], unit: "/20" },
+    prog: { vals: [[56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55], [0, 0, 7, 7]], den: [80, 40, 80, 20], unit: "subgoals" },
   };
   let metric = "sr";
 
@@ -45,7 +45,8 @@
       const gx = padL + groupW * gi, start = gx + (groupW - totalW) / 2;
       METHODS.forEach((m, mi) => {
         const raw = D.vals[gi][mi], frac = raw / D.den[gi];
-        const x = start + mi * (barW + gap), y = Y(frac), bh = padT + plotH - y;
+        const x = start + mi * (barW + gap); let y = Y(frac), bh = padT + plotH - y;
+        if (bh < 3) { bh = 3; y = padT + plotH - bh; }   // min stub so a 0/N bar stays visible
         ctx.fillStyle = m.col; ctx.beginPath(); ctx.roundRect(x, y, barW, bh, 3); ctx.fill();
         ctx.fillStyle = m.ours ? "#0a7d72" : "#69727f";
         ctx.font = (m.ours ? "700 " : "600 ") + "11px ui-monospace,monospace";
