@@ -223,3 +223,8 @@ footer{padding:48px 0;border-top:1px solid var(--line);color:var(--faint);font-s
   #flow-seg .segbtn{width:100%;margin-left:0!important;border:1.5px solid var(--line);border-radius:10px}
   #flow-seg .segbtn.active{border-color:currentColor}
 }
+
+/* Comparison/grid videos are encoded much larger than they're displayed (~4x),
+   so the browser's software downscale shimmers on motion. Promote each to its own
+   GPU layer so scaling is done on the GPU (smoother, less shimmer). */
+.vcell video, .rollblock .gv video, .vidwrap video, .taskgrid video, .gv video { transform: translateZ(0); backface-visibility: hidden; }
