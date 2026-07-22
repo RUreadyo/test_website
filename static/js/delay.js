@@ -13,7 +13,7 @@
   ]);
   const TASKS = [
     { key: "leap", label: "Leap Cube Reorientation", yMax: 0.5, placeholder: false,
-      note: "Leap Cube Reorientation · multi-success rate. πR² wins by cutting the effective delay (fewer denoising steps + asynchronous vision and language).",
+      note: "Leap Cube Reorientation · multi-success rate. πR² wins by cutting the effective delay (fewer denoising steps + asynchronous vision state (cube pose)).",
       series: mk([0.16, 0.24, 0.21], [0.36, 0.25, 0.18], [0.37, 0.28, 0.25], [0.33, 0.38, 0.32]) },
     { key: "t2", label: "Sim Task 2", yMax: 1.0, placeholder: true,
       note: "Sim Task 2 · placeholder numbers, replace with eval results.",
@@ -47,29 +47,35 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw();
   }
 
+  function rr(x, y, w, h, r) { r = Math.min(r, w / 2, Math.abs(h) / 2); ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); }
   function draw() {
     const W = canvas.clientWidth, H = canvas.clientHeight, T = task(), yMax = T.yMax;
     ctx.clearRect(0, 0, W, H);
-    const padL = 56, padR = 16, padT = 16, padB = 36, plotW = W - padL - padR, plotH = H - padT - padB;
-    const X = i => padL + plotW * (i / (XS.length - 1));
+    const padL = 52, padR = 14, padT = 16, padB = 40, plotW = W - padL - padR, plotH = H - padT - padB;
     const Y = v => padT + plotH * (1 - v / yMax);
+    const S = T.series, nG = XS.length, nB = S.length;
+    const groupW = plotW / nG, barW = groupW * 0.16, gap = groupW * 0.028, totalW = nB * barW + (nB - 1) * gap;
 
-    ctx.strokeStyle = "#e9ecf1"; ctx.fillStyle = "#222831";
-    ctx.font = "11px ui-monospace,monospace"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    // gridlines + y labels
+    ctx.strokeStyle = "#e9ecf1"; ctx.fillStyle = "#222831"; ctx.font = "11px ui-monospace,monospace";
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
     for (let t = 0; t <= 2; t++) { const g = yMax * t / 2, y = Y(g); ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke(); ctx.fillText(g.toFixed(2), padL - 8, y); }
-    ctx.textAlign = "center"; ctx.textBaseline = "top";
-    XS.forEach((lab, i) => ctx.fillText("d₀=" + lab, X(i), H - padB + 8));
 
-    ctx.strokeStyle = "#cfd6df"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(idx), padT); ctx.lineTo(X(idx), padT + plotH); ctx.stroke();
-
-    T.series.forEach(s => {
-      ctx.strokeStyle = s.color; ctx.lineWidth = s.ours ? 3 : 2; ctx.globalAlpha = s.ours ? 1 : 0.85;
-      ctx.beginPath(); XS.forEach((k, i) => { const x = X(i), y = Y(s.y[k]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke();
-      XS.forEach((k, i) => {
-        const x = X(i), y = Y(s.y[k]);
-        ctx.beginPath(); ctx.arc(x, y, i === idx ? (s.ours ? 6 : 5) : 3.5, 0, 7); ctx.fillStyle = s.color; ctx.fill();
+    XS.forEach((lab, gi) => {
+      const gx = padL + groupW * gi, start = gx + (groupW - totalW) / 2, sel = gi === idx;
+      if (sel) { ctx.fillStyle = "rgba(14,158,143,0.07)"; ctx.fillRect(gx + 3, padT, groupW - 6, plotH); }   // highlight the selected d0
+      S.forEach((s, mi) => {
+        const v = s.y[lab], bx = start + mi * (barW + gap), by = Y(v), bh = padT + plotH - by;
+        ctx.globalAlpha = sel ? 1 : 0.42;
+        ctx.fillStyle = s.color; rr(bx, by, barW, Math.max(1.5, bh), 3); ctx.fill();
+        ctx.globalAlpha = 1;
+        if (sel) {   // value labels on the highlighted group
+          ctx.fillStyle = s.ours ? "#0a7d72" : "#69727f"; ctx.font = (s.ours ? "700 " : "600 ") + "9.5px ui-monospace,monospace";
+          ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(v.toFixed(2), bx + barW / 2, by - 2);
+        }
       });
-      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#222831"; ctx.font = (sel ? "700 " : "") + "11px ui-monospace,monospace";
+      ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.fillText("d₀=" + lab, gx + groupW / 2, H - padB + 8);
     });
     ctx.save(); ctx.translate(12, padT + plotH / 2); ctx.rotate(-Math.PI / 2);
     ctx.fillStyle = "#222831"; ctx.textAlign = "center"; ctx.textBaseline = "middle";

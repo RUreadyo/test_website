@@ -62,20 +62,15 @@
 
     if (p >= i0 && p <= i1) {            // the dot lives on this canvas right now
       const dx = x(p), dy = y(F, p);
-      let label = null; for (const r of REG) if (p >= r[0] && p <= r[1]) { label = r[2]; break; }
-      if (label) {
-        ctx.font = "700 11px ui-monospace,Menlo,monospace"; ctx.textAlign = "center"; ctx.textBaseline = "top";
-        const tw = ctx.measureText(label).width, lx = Math.max(tw / 2 + 6, Math.min(W - tw / 2 - 6, dx));
-        const ly = o.k === 0 ? 14 : 1;   // left canvas: drop below the fingertip-force legend
-        ctx.fillStyle = "#0e9e8f"; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(lx - tw / 2 - 6, ly, tw + 12, 15, 5) : ctx.rect(lx - tw / 2 - 6, ly, tw + 12, 15); ctx.fill();
-        ctx.fillStyle = "#fff"; ctx.fillText(label, lx, ly + 2);
-      }
-      // "reacting" = the force is rising sharply right now; the action tracks it
+      // no labels -- just a visual highlight at the moments where the action reacts
+      // to the proprioceptive force (force rising sharply -> the GT action tracks it)
       const react = Math.max(0, Math.min(1, (at(F, p) - at(F, p - 4)) * 5));
-      if (react > 0.12) {                                   // expanding ripple in the action colour
-        const ph = (ts / 550) % 1;
-        ctx.beginPath(); ctx.arc(dx, dy, 4 + ph * 15, 0, 7);
-        ctx.strokeStyle = `rgba(124,92,255,${react * (1 - ph) * 0.85})`; ctx.lineWidth = 2; ctx.stroke();
+      if (react > 0.1) {                                    // two expanding ripples -> a clear "pulse" of reaction
+        for (let j = 0; j < 2; j++) {
+          const ph = ((ts / 620) + j * 0.5) % 1;
+          ctx.beginPath(); ctx.arc(dx, dy, 4 + ph * 17, 0, 7);
+          ctx.strokeStyle = `rgba(124,92,255,${react * (1 - ph) * 0.8})`; ctx.lineWidth = 2; ctx.stroke();
+        }
       }
       const pulse = 0.5 + 0.5 * Math.sin(ts / 1000 * 4);
       ctx.beginPath(); ctx.arc(dx, dy, 4.5 + 3 * pulse + react * 6, 0, 7); ctx.fillStyle = `rgba(14,158,143,${0.13 + react * 0.26})`; ctx.fill();
