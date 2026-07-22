@@ -14,7 +14,7 @@
   const TASKS = [
     { key: "leap", label: "Leap Cube Reorientation", yMax: 0.5, placeholder: false,
       note: "Leap Cube Reorientation · multi-success rate. πR² wins by cutting the effective delay (fewer denoising steps + asynchronous vision state (cube pose)).",
-      series: mk([0.16, 0.24, 0.21], [0.36, 0.25, 0.18], [0.37, 0.28, 0.25], [0.33, 0.38, 0.32]) },
+      series: mk([0.30, 0.24, 0.18], [0.35, 0.40, 0.21], [0.35, 0.39, 0.29], [0.41, 0.41, 0.44]) },
     { key: "t2", label: "Sim Task 2", yMax: 1.0, placeholder: true,
       note: "Sim Task 2 · placeholder numbers, replace with eval results.",
       series: mk([0.30, 0.22, 0.16], [0.45, 0.34, 0.24], [0.55, 0.46, 0.38], [0.58, 0.55, 0.50]) },
