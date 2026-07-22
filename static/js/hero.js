@@ -57,7 +57,7 @@
       ctx.fillStyle = "#9aa3ae"; ctx.fillText("index force", PADX + 9, 10);
       const x2 = PADX + 9 + ctx.measureText("index force").width + 9;
       ctx.strokeStyle = C_ACT; ctx.lineWidth = 1.6; ctx.setLineDash([3, 2]); ctx.beginPath(); ctx.moveTo(x2, 6.5); ctx.lineTo(x2 + 9, 6.5); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = "#9aa3ae"; ctx.fillText("GT action", x2 + 13, 10);
+      ctx.fillStyle = "#9aa3ae"; ctx.fillText("Action", x2 + 13, 10);
     }
 
     if (p >= i0 && p <= i1) {            // the dot lives on this canvas right now
