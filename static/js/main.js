@@ -40,40 +40,9 @@
   // teleop comparison: hide native fullscreen too (side-by-side, single-video FS breaks it)
   document.querySelectorAll('[data-panel="tele"] video').forEach(v => { v.setAttribute("controlsList", "nofullscreen"); try { v.disablePictureInPicture = true; } catch (e) {} });
 
-  // ---- ✓/✗ success badges ----
-  const S = window.SUCCESS, MN = window.MAIN_N;
-  if (!S) return;
-  const chip = ok => { const s = document.createElement("span"); s.className = "sbadge " + (ok ? "ok" : "no"); s.textContent = ok ? "✓" : "✕"; return s; };
-  // show the outcome only near the end of the clip (result known once the rollout finishes)
-  const gateOnEnd = (vid, el) => {
-    const upd = () => { const d = vid.duration; el.classList.toggle("show", d && vid.currentTime >= d * 0.82); };
-    vid.addEventListener("timeupdate", upd); vid.addEventListener("seeked", upd); upd();
-  };
-  // Keep the single native fullscreen button (its own control, doesn't block the
-  // scrubber). The DOM ✓/✗ overlay isn't shown in native video fullscreen.
-  const addFsBtn = (wrap, vid) => { if (vid) { try { vid.disablePictureInPicture = true; } catch (e) {} } };
-
-  // 2x2 main comparison: cell[data-task][data-method]
-  document.querySelectorAll(".vcell[data-task][data-method]").forEach(cell => {
-    if (cell.closest('[data-panel="tele"]')) return;   // skip teleop comparison
-    const t = cell.dataset.task, m = cell.dataset.method, mn = MN[t], n = ((typeof mn === "object" ? (mn[m] || 1) : (mn || 1))) - 1, vid = cell.querySelector("video");
-    if (S[t] && S[t][m] && vid) {
-      const ok = S[t][m][n] === 1; const b = chip(ok); cell.appendChild(b);
-      cell.classList.add("gate", ok ? "res-ok" : "res-no");
-      gateOnEnd(vid, cell); addFsBtn(cell, vid);
-    }
-  });
-
-  // rollout grids: overlay 5x4 badges over .gv[data-task][data-method]
-  document.querySelectorAll(".gv[data-task][data-method]").forEach(gv => {
-    const t = gv.dataset.task, m = gv.dataset.method, arr = S[t] && S[t][m];
-    const vid = gv.querySelector("video");
-    if (!arr || !vid) return;
-    const box = document.createElement("div"); box.className = "gvid";
-    vid.parentNode.insertBefore(box, vid); box.appendChild(vid);
-    const ov = document.createElement("div"); ov.className = "grid-badges";
-    arr.forEach(v => { const c = document.createElement("span"); c.className = "gb " + (v ? "ok" : "no"); const g = document.createElement("span"); g.textContent = v ? "✓" : "✕"; c.appendChild(g); ov.appendChild(c); });
-    box.appendChild(ov);
-    gateOnEnd(vid, ov); addFsBtn(box, vid);
-  });
+  // ✓/✗ outcome is burned into the video pixels (over the last ~18%), so it stays
+  // visible in native fullscreen. No DOM overlay; just disable PiP so there's a
+  // single native fullscreen control that doesn't block the scrubber.
+  document.querySelectorAll(".vcell[data-task][data-method] video, .gv[data-task][data-method] video")
+    .forEach(v => { try { v.disablePictureInPicture = true; } catch (e) {} });
 })();
