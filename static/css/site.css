@@ -27,7 +27,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);
 a{color:var(--accent);text-decoration:none}
 a:hover{color:var(--accent-d)}
 h1,h2,h3{color:var(--ink);line-height:1.12;letter-spacing:-.022em;font-weight:700;margin:0}
-h2{font-size:clamp(26px,3.4vw,36px)}
+h2{font-size:clamp(23px,3.0vw,32px)}
 h3{font-size:19px;letter-spacing:-.01em}
 section{padding:58px 0;border-top:1px solid var(--line)}
 section.alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -162,6 +162,7 @@ canvas{display:block;width:100%;border-radius:12px;background:var(--bg-alt)}
 .vcell{position:relative}
 .vcell video{width:100%;display:block;background:#000}
 .taskgrid.uniform .vcell video{aspect-ratio:1536/1080;object-fit:cover}
+.taskgrid:not(.uniform) .vcell video{aspect-ratio:1536/1080}
 /* outcome shown only near clip end (.show added by JS) */
 .vcell.gate.show{border-width:3px}
 .vcell.gate.show.res-no{border-color:#ff4d63} .vcell.gate.show.res-ok{border-color:#16cdb5}

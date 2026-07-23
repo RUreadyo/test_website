@@ -21,7 +21,7 @@ function mkFlow(opts){
   function frame(ts){if(last==null)last=ts;const dt=Math.min(.05,(ts-last)/1000);last=ts;t+=dt*(((mode===1||mode===4)?0.35:1.0));ct+=dt*1.8;draw();cdraw();requestAnimationFrame(frame);}   // streaming (1,4) vs pipeline tick-rate (0,2,3), overall ~0.5x
   function cresize(){if(!cc)return;const dw=cc.clientWidth,dpr=devicePixelRatio||1,cs=1.15;cWl=dw/cs;cc.width=dw*dpr;cc.height=176*cs*dpr;cc.style.height=(176*cs)+"px";cctx.setTransform(dpr*cs,0,0,dpr*cs,0,0);}
   function cdraw(){if(!cc)return;const x=cctx,W=cWl,H=176;x.clearRect(0,0,W,H);x.fillStyle=bg;x.fillRect(0,0,W,H);
-    const R=[["Standard VLA",K*dd+DVLM,"#c2452f"],["Train-Time RTC",K*dd+DVLM,pink],["Mod 1 (d=0)",1,blue],["Mod 2",dd+DVLM,teal],["πR² (both)",dd,"#0e9e8f"]];
+    const R=[["Synchronous Inference",K*dd+DVLM,"#c2452f"],["Train-Time RTC",K*dd+DVLM,pink],["Mod 1 (d=0)",1,blue],["Mod 2",dd+DVLM,teal],["πR² (both)",dd,"#0e9e8f"]];
     const padX=12,labW=124,trackX=padX+labW,trackW=W-trackX-74,rowH=30,top=10,ppt=11;
     for(let i=0;i<R.length;i++){const name=R[i][0],intv=R[i][1],col=R[i][2],y=top+i*rowH+rowH/2,fast=intv<=dd+0.01;
       x.textAlign="left";x.fillStyle=col;x.font="700 11px Inter,sans-serif";x.fillText(name,padX,y+4,labW-6);
@@ -177,7 +177,9 @@ function mkFlow(opts){
     const padX=14,aw=24,by=60,bh=82,avail=W-2*padX-3*aw,u=avail/4.85;
     const w0=1.2*u,w1=u,w2=1.55*u,w3=1.1*u,x0=padX,x1=x0+w0+aw,x2=x1+w1+aw,x3=x2+w2+aw,cy=by+bh/2;
     const rtc=(m===3),d=rtc?dRTC:dMod2,ac=teal,denT=rtc?4:1;   // denoise box teal in every method (same component, same colour)
-    const [ph,f]=phaseAt(rtc?PHR:PH2,t);
+    const denEnd=0.5+2+0.4+4;                            // RTC: o2v+vlm+v2d+den — denoising completes (execute hand-off) here
+    const tR=rtc?t+denEnd+0.4:t;                         // RTC: open the loop just AFTER the hand-off (past the d2e full-green frame), so the first frame is a fresh chunk starting to execute, not a finished denoise
+    const [ph,f]=phaseAt(rtc?PHR:PH2,tR);
     arrow(x0+w0,cy,x1,blue,apr("o2v",ph,f));arrow(x1+w1,cy,x2,teal,apr("v2d",ph,f));arrow(x2+w2,cy,x3,amber,apr("d2e",ph,f));
     box([x0,by,w0,bh],"Observation","",arw,ph==="o2v");obsIn(x0,w0,x2,w2,by,bh,ph==="o2v"?f*0.5/2.9:ph==="vlm"?(0.5+f*2)/2.9:ph==="v2d"?(2.5+f*0.4)/2.9:ph==="den"?1:0);
     box([x1,by,w1,bh],"VLM","image + text",blue,ph==="vlm");if(ph==="vlm"){const bx=x1+10,byy=by+bh-9,bw=w1-20;rr(bx,byy,bw,4,2);ctx.fillStyle="#e6edfb";ctx.fill();rr(bx,byy,Math.max(2,bw*f),4,2);ctx.fillStyle=blue;ctx.fill();}
@@ -194,7 +196,9 @@ function mkFlow(opts){
     // execute: d in-flight actions run through the compute (VLM + denoise), one tick at a time
     box([x3,by,w3,bh],"","",amber,true);
     ctx.textAlign="center";ctx.fillStyle=amber;ctx.font="700 12.5px Inter,sans-serif";ctx.fillText("Execute",x3+w3/2,by+15,w3-14);
-    const PHc=rtc?PHR:PH2,Tc=PHc.reduce((s,p)=>s+p[1],0),prog=((t%Tc)/Tc)*d;   // 0..d continuous: in-flight actions execute nonstop, no pause at full
+    const PHc=rtc?PHR:PH2,Tc=PHc.reduce((s,p)=>s+p[1],0);
+    let ef=(((tR%Tc)-denEnd)/Tc)%1;ef=(ef+1)%1;                                 // RTC: execute fills to full exactly at den-done, then resets for the next chunk
+    const prog=rtc?ef*d:((t%Tc)/Tc)*d;   // Mod 2 unchanged
     const tx=x3+12,tw=w3-24,ty=by+36,th=15,sg=4,sw=(tw-(d-1)*sg)/d;
     for(let i=0;i<d;i++){const sx=tx+i*(sw+sg);rr(sx,ty,sw,th,3);ctx.fillStyle="#f7efe4";ctx.fill();
       const fr=Math.max(0,Math.min(1,prog-i));if(fr>0.02){rr(sx,ty,sw*fr,th,3);ctx.fillStyle=amber;ctx.fill();}}   // leading block grows continuously
@@ -210,7 +214,7 @@ function mkFlow(opts){
   function draw(){ if(opts.jump&&mode!==4){cv.style.cursor="default";hov=null;} if(mode===0) drawStd(); else if(mode===2||mode===3) drawClamp(mode); else drawMod(mode); }
 
   const CAP={
-    0:"<b>Standard VLA.</b> Predicts a chunk with a full VLM forward pass plus K denoising steps, then commits an 8-action sub-chunk open-loop while re-planning. It stalls during compute and every action runs on a stale observation, so its replanning interval is at least K·d + d_vlm control steps.",
+    0:"<b>Synchronous Inference.</b> Predicts a chunk with a full VLM forward pass plus K denoising steps, then commits an 8-action sub-chunk open-loop while re-planning. It stalls during compute and every action runs on a stale observation, so its replanning interval is at least K·d + d_vlm control steps.",
     3:"<b>Train-Time RTC.</b> Clamps a clean front of d in-flight actions (inpaint) that keep executing during inference, so there is no stall. But it still runs a full VLM forward pass and all K denoising steps to predict the chunk, so the inference time stays K·d + d_vlm: it removes the stall but does not reduce latency or improve reactivity, and becomes infeasible once the clean front exceeds half the chunk length.",
     1:"<b>Modification 1, proprioception-reactive diffusion forcing.</b> The VLM runs asynchronously (cached feature, age d_vlm) while fresh proprioception feeds every denoising step, so the policy re-plans every control step. Shown at d = 0: it assumes each denoising step is instant (no delay), which is unrealistic; Modification 2 adds the latency-adaptive schedule for real delays.",
     2:"<b>Modification 2, latency-adaptive schedule.</b> A staircase (clean front + ramp + noise tail) emits d clean actions in a single denoising step and adapts to the delay d. The VLM here is still synchronous; removing that bottleneck is Modification 1's job.",

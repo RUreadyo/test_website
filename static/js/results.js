@@ -7,7 +7,7 @@
   const c = document.getElementById("results-canvas");
   if (!c) return;
   const ctx = c.getContext("2d");
-  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill", "Catch Book"];
+  const TASKS = ["Catch Book", "Insert Box", "Tidy Up Book", "Don't Spill"];
   const METHODS = [
     { n: "Flow, Synchronous", col: "#b8c0cc" },
     { n: "Naive Async (TE)", col: "#7f8b9c" },
@@ -16,8 +16,8 @@
   ];
   // per task [Spill, Book, Box] x [Sync, NaiveAsync, RTC, ours]
   const DATA = {
-    sr:   { vals: [[11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10], [4, 2, 5, 11]], den: [20, 20, 20, 20], unit: "/20" },
-    prog: { vals: [[56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55], [4, 2, 5, 11]], den: [80, 40, 80, 20], unit: "subgoals" },
+    sr:   { vals: [[4, 2, 5, 11], [11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10]], den: [20, 20, 20, 20], unit: "/20" },
+    prog: { vals: [[4, 2, 5, 11], [56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55]], den: [20, 80, 40, 80], unit: "subgoals" },
   };
   let metric = "sr";
 
@@ -41,6 +41,7 @@
 
     const D = DATA[metric], nb = METHODS.length, groupW = plotW / TASKS.length;
     const barW = groupW * 0.15, gap = groupW * 0.03, totalW = nb * barW + (nb - 1) * gap;
+    const rot = (barW + gap) < 30, fpx = rot ? 10 : 11;   // narrow (mobile): rotate value labels vertical so they don't overlap
     TASKS.forEach((task, gi) => {
       const gx = padL + groupW * gi, start = gx + (groupW - totalW) / 2;
       METHODS.forEach((m, mi) => {
@@ -48,12 +49,19 @@
         const x = start + mi * (barW + gap); let y = Y(frac), bh = padT + plotH - y;
         if (bh < 3) { bh = 3; y = padT + plotH - bh; }   // min stub so a 0/N bar stays visible
         ctx.fillStyle = m.col; ctx.beginPath(); ctx.roundRect(x, y, barW, bh, 3); ctx.fill();
+        const label = raw + "/" + D.den[gi], cx = x + barW / 2;
+        ctx.font = (m.ours ? "700 " : "600 ") + fpx + "px ui-monospace,monospace";
         ctx.fillStyle = m.ours ? "#0a7d72" : "#69727f";
-        ctx.font = (m.ours ? "700 " : "600 ") + "11px ui-monospace,monospace";
-        ctx.textAlign = "center"; ctx.textBaseline = "bottom";
-        ctx.fillText(raw + "/" + D.den[gi], x + barW / 2, y - 3);
+        if (rot) {
+          const lw = ctx.measureText(label).width, sy = Math.max(lw + 2, y - 4);   // clamp so a tall bar's label stays on-canvas
+          ctx.save(); ctx.translate(cx, sy); ctx.rotate(-Math.PI / 2);
+          ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(label, 0, 0);
+          ctx.restore();
+        } else {
+          ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.fillText(label, cx, y - 3);
+        }
       });
-      ctx.fillStyle = "#111418"; ctx.font = "600 13px Inter,sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      ctx.fillStyle = "#111418"; ctx.font = "600 " + (rot ? 11 : 13) + "px Inter,sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "top";
       ctx.fillText(task, gx + groupW / 2, padT + plotH + 10);
     });
   }

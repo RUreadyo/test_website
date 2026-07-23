@@ -45,10 +45,10 @@
   <div class="vidwrap" style="max-width:960px;margin:0 auto;aspect-ratio:16/9">
     <video id="teaser-reel" muted playsinline autoplay loop preload="auto" poster="static/videos/posters/teaser_init.jpg"><source src="static/videos/teaser_init.mp4" type="video/mp4"></video>
   </div>
-  <p class="lead" style="max-width:820px;margin:20px auto 0">πR² makes action-chunking VLAs <b style="color:var(--text)">reactive</b> and <b style="color:var(--text)">real-time</b> with <a href="#mod1" class="jump" style="color:var(--fast)">a fast proprioception channel</a>, <a href="#mod1" class="jump" style="color:var(--slow)">asynchronous vision and language</a>, and <a href="#mod2" class="jump" style="color:var(--accent-d)">a latency-adaptive flow schedule</a>.</p>
+  <p class="lead" style="max-width:820px;margin:20px auto 0">πR² makes large-scale, action-chunking flow policies (e.g., VLAs) <b style="color:var(--text)">reactive</b> and <b style="color:var(--text)">real-time</b> with <a href="#mod1" class="jump" style="color:var(--fast)">a fast proprioception channel</a>, <a href="#mod1" class="jump" style="color:var(--slow)">asynchronous vision and language</a>, and <a href="#mod2" class="jump" style="color:var(--accent-d)">a latency-adaptive flow schedule</a>.</p>
   <div class="stats">
-    <div class="stat"><div class="n">~4×</div><div class="l">faster than the base VLA</div></div>
-    <div class="stat"><div class="n">plug &amp; play</div><div class="l">fine-tune any pretrained VLA</div></div>
+    <div class="stat"><div class="n">~4×</div><div class="l">faster than the base policy</div></div>
+    <div class="stat"><div class="n">plug &amp; play</div><div class="l">fine-tune any flow policy</div></div>
     <div class="stat"><div class="n">+50%</div><div class="l">rel. success (real world)</div></div>
   </div>
 </div></section>
@@ -56,12 +56,12 @@
 <!-- PROBLEM -->
 <section id="problem"><div class="wrap">
   <p class="eyebrow">The problem</p>
-  <h2>VLAs lack reactivity and are slow</h2>
-  <p class="lead">A modern VLA rests on three ingredients: (1) it predicts actions in <b style="color:var(--text)">chunks</b>, (2) generates each chunk by <b style="color:var(--text)">iterative denoising</b>, and (3) leverages a <b style="color:var(--text)">large backbone</b> (i.e., VLM). These make replanning at every step too expensive, so the policy commits to a chunk and runs it open-loop, blind to the sensory input arriving mid-chunk. Two coupled limitations follow: <b style="color:var(--text)">reduced reactivity</b>, because a chunk plays open-loop while the next is computed, and <b style="color:var(--text)">increased latency</b>, because every action is based on stale observations.</p>
-  <p class="lead" style="margin-top:14px">Toggle the demo below to compare one inference loop across a standard VLA, Train-Time RTC, and πR². The two modifications behind πR² are detailed in the <a href="#method" class="jump" style="color:var(--accent)">Method</a>.</p>
+  <h2>Large-scale flow policies are slow, lacking reactivity</h2>
+  <p class="lead">A modern large-scale flow policy (e.g., VLAs) rests on three ingredients: (1) it predicts actions in <b style="color:var(--text)">chunks</b>, (2) generates each chunk by <b style="color:var(--text)">iterative denoising</b>, and (3) leverages a <b style="color:var(--text)">large backbone</b> (e.g., VLM). These make replanning at every step too expensive, so the policy commits to a chunk and runs it open-loop, blind to the sensory input arriving mid-chunk. Two coupled limitations follow: <b style="color:var(--text)">reduced reactivity</b>, because a chunk plays open-loop while the next is computed, and <b style="color:var(--text)">increased latency</b>, because every action is based on stale observations.</p>
+  <p class="lead" style="margin-top:14px">Toggle the demo below to compare one inference loop across Synchronous Inference, Train-Time RTC, and πR². The two modifications behind πR² are detailed in the <a href="#method" class="jump" style="color:var(--accent)">Method</a>.</p>
   <div class="panel" style="margin-top:16px">
     <div class="seg" id="flow-seg" style="margin-bottom:14px;justify-content:center;flex-wrap:wrap;width:100%;background:none;border:none;padding:0">
-      <button class="segbtn active" data-m="0">Standard VLA (sync inference)</button>
+      <button class="segbtn active" data-m="0">Synchronous Inference</button>
       <button class="segbtn" data-m="3" style="color:#e0568f">Train-Time RTC</button>
       <button class="segbtn" data-m="4" style="margin-left:12px;color:var(--accent-d);font-weight:700">πR² (ours)</button>
     </div>
@@ -74,8 +74,8 @@
 <!-- METHOD -->
 <section id="method"><div class="wrap">
   <p class="eyebrow">Method</p>
-  <h2>π<span style="color:var(--accent)">R²</span>: two changes to existing VLAs</h2>
-  <p class="lead">πR² makes two changes to a pretrained VLA: <a href="#mod1" class="jump" style="color:var(--fast)">proprioception-reactive diffusion forcing</a> for <b style="color:var(--text)">reactivity</b>, and a <a href="#mod2" class="jump" style="color:var(--accent-d)">latency-adaptive flow schedule</a> for <b style="color:var(--text)">real-time</b> control. Both leave the backbone untouched, so πR² drops into existing VLAs (GR00T-N1.7) by fine-tuning, without training from scratch.</p>
+  <h2>π<span style="color:var(--accent)">R²</span>: two changes to existing flow policies</h2>
+  <p class="lead">πR² makes two changes to a large-scale flow policy: <a href="#mod1" class="jump" style="color:var(--fast)">proprioception-reactive diffusion forcing</a> for <b style="color:var(--text)">reactivity</b>, and a <a href="#mod2" class="jump" style="color:var(--accent-d)">latency-adaptive flow schedule</a> for <b style="color:var(--text)">real-time</b> control. Both leave the backbone untouched, so πR² drops into existing flow policies (e.g., GR00T-N1.7) by fine-tuning, without training from scratch.</p>
 
   <p id="mod1" class="eyebrow" style="margin-top:48px;color:var(--fast);scroll-margin-top:70px">Modification 1 · proprioception-reactive diffusion forcing</p>
   <h3 style="font-size:23px;letter-spacing:-.02em;margin:0 0 6px">React to proprioception, let vision and language lag</h3>
@@ -138,15 +138,24 @@
   <p class="lead">πR² tracks smoothly through contact, replanning closed-loop every 1-2 control ticks instead of committing to a long open-loop chunk. All methods fine-tune GR00T-N1.7 (xArm6 + XHand, 25&nbsp;Hz); every clip plays at 1× real-time.</p>
 
   <div class="tabs" style="margin-top:18px">
-    <button class="tab active" data-tab="task" data-key="box">Insert Box</button>
+    <button class="tab active" data-tab="task" data-key="catch">Catch Book</button>
+    <button class="tab" data-tab="task" data-key="box">Insert Box</button>
     <button class="tab" data-tab="task" data-key="book">Tidy Up Book</button>
     <button class="tab" data-tab="task" data-key="spill">Don't Spill</button>
-    <button class="tab" data-tab="task" data-key="catch">Catch Book</button>
     <button class="btn-sm playall" data-group="task" style="margin-left:auto">▶ Play all</button>
 </div>
 
   <div data-tabgroup="task">
-    <div data-panel="task" data-key="box">
+    <div data-panel="task" data-key="catch">
+      <p class="taskdesc">Reach out and grasp the upright book.</p>
+      <div class="taskgrid">
+        <div class="vcell ours" data-task="catch" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+        <div class="vcell" data-task="catch" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
+        <div class="vcell" data-task="catch" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
+        <div class="vcell" data-task="catch" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
+      </div>
+    </div>
+    <div data-panel="task" data-key="box" style="display:none">
       <p class="taskdesc">Push the box upright, grasp it, and insert it into the basket.</p>
       <div class="taskgrid">
         <div class="vcell ours" data-task="box" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
@@ -171,15 +180,6 @@
         <div class="vcell" data-task="spill" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
         <div class="vcell" data-task="spill" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
         <div class="vcell" data-task="spill" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
-      </div>
-    </div>
-    <div data-panel="task" data-key="catch" style="display:none">
-      <p class="taskdesc">Reach out and grasp the upright book.</p>
-      <div class="taskgrid">
-        <div class="vcell ours" data-task="catch" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
-        <div class="vcell" data-task="catch" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
-        <div class="vcell" data-task="catch" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
-        <div class="vcell" data-task="catch" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
       </div>
     </div>
   </div>
@@ -210,14 +210,20 @@
     <h3 style="font-size:24px;letter-spacing:-.02em">πR² matches the demonstration's smoothness and speed</h3>
     <p class="lead" style="margin-bottom:6px">Next to the human teleoperator who collected the demos, πR² runs continuously and keeps pace, without the chunk-boundary stalls of open-loop baselines.</p>
     <div class="tabs" style="margin-top:16px">
-    <button class="tab active" data-tab="tele" data-key="box">Insert Box</button>
+    <button class="tab active" data-tab="tele" data-key="catch">Catch Book</button>
+    <button class="tab" data-tab="tele" data-key="box">Insert Box</button>
     <button class="tab" data-tab="tele" data-key="book">Tidy Up Book</button>
     <button class="tab" data-tab="tele" data-key="spill">Don't Spill</button>
-    <button class="tab" data-tab="tele" data-key="catch">Catch Book</button>
     <button class="btn-sm playall" data-group="tele" style="margin-left:auto">▶ Play all</button>
 </div>
     <div data-tabgroup="tele">
-      <div data-panel="tele" data-key="box">
+      <div data-panel="tele" data-key="catch">
+        <div class="taskgrid uniform">
+          <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_catch.jpg" controls muted loop playsinline><source src="static/videos/teleop_catch.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
+          <div class="vcell ours" data-task="catch" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_ours_tele.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+        </div>
+      </div>
+      <div data-panel="tele" data-key="box" style="display:none">
         <div class="taskgrid uniform">
           <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_box.jpg" controls muted loop playsinline><source src="static/videos/teleop_box.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
           <div class="vcell ours" data-task="box" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
@@ -233,12 +239,6 @@
         <div class="taskgrid uniform">
           <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_spill.jpg" controls muted loop playsinline><source src="static/videos/teleop_spill.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
           <div class="vcell ours" data-task="spill" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
-        </div>
-      </div>
-      <div data-panel="tele" data-key="catch" style="display:none">
-        <div class="taskgrid uniform">
-          <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_catch.jpg" controls muted loop playsinline><source src="static/videos/teleop_catch.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
-          <div class="vcell ours" data-task="catch" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_ours_tele.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
         </div>
       </div>
     </div>
@@ -308,7 +308,7 @@
 <!-- ACKNOWLEDGEMENTS -->
 <section id="ack"><div class="wrap">
   <h2>Acknowledgements</h2>
-  <p class="lead">We appreciate the helpful discussions with Tony Tao, Andrew Wang, Jason Liu, Yishu Li, Kallol Saha, and Yuxuan Kuang. This work was supported by gift awards from CISCO, Google, and NSF Award IIS-2442282.</p>
+  <p class="lead">We appreciate the helpful discussions with CISCO, Tony Tao, Andrew Wang, Jason Liu, and Yuxuan Kuang. We also thank Yishu Li and Kallol Saha for helping real-world experiments. This work was supported by gift awards from CISCO, Google, and NSF Award IIS-2442282.</p>
 </div></section>
 
 <footer><div class="wrap">
