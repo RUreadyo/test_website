@@ -141,7 +141,7 @@
     <button class="tab active" data-tab="task" data-key="box">Insert Box</button>
     <button class="tab" data-tab="task" data-key="book">Tidy Up Book</button>
     <button class="tab" data-tab="task" data-key="spill">Don't Spill</button>
-    <button class="tab" data-tab="task" data-key="catch">Catch book</button>
+    <button class="tab" data-tab="task" data-key="catch">Catch Book</button>
     <button class="btn-sm playall" data-group="task" style="margin-left:auto">▶ Play all</button>
 </div>
 
@@ -149,37 +149,37 @@
     <div data-panel="task" data-key="box">
       <p class="taskdesc">Push the box upright, grasp it, and insert it into the basket.</p>
       <div class="taskgrid">
-        <div class="vcell ours" data-task="box" data-method="ours"><video preload="none" poster="static/videos/posters/box_ours.jpg" controls muted loop playsinline><source src="static/videos/box_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
-        <div class="vcell" data-task="box" data-method="sync"><video preload="none" poster="static/videos/posters/box_sync.jpg" controls muted loop playsinline><source src="static/videos/box_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
-        <div class="vcell" data-task="box" data-method="async"><video preload="none" poster="static/videos/posters/box_async.jpg" controls muted loop playsinline><source src="static/videos/box_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
-        <div class="vcell" data-task="box" data-method="rtc"><video preload="none" poster="static/videos/posters/box_rtc.jpg" controls muted loop playsinline><source src="static/videos/box_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
+        <div class="vcell ours" data-task="box" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+        <div class="vcell" data-task="box" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
+        <div class="vcell" data-task="box" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
+        <div class="vcell" data-task="box" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
       </div>
     </div>
     <div data-panel="task" data-key="book" style="display:none">
       <p class="taskdesc">Pull a book from the stack and place it into the basket.</p>
       <div class="taskgrid">
-        <div class="vcell ours" data-task="book" data-method="ours"><video preload="none" poster="static/videos/posters/book_ours.jpg" controls muted loop playsinline><source src="static/videos/book_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
-        <div class="vcell" data-task="book" data-method="sync"><video preload="none" poster="static/videos/posters/book_sync.jpg" controls muted loop playsinline><source src="static/videos/book_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
-        <div class="vcell" data-task="book" data-method="async"><video preload="none" poster="static/videos/posters/book_async.jpg" controls muted loop playsinline><source src="static/videos/book_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
-        <div class="vcell" data-task="book" data-method="rtc"><video preload="none" poster="static/videos/posters/book_rtc.jpg" controls muted loop playsinline><source src="static/videos/book_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
+        <div class="vcell ours" data-task="book" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/book_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+        <div class="vcell" data-task="book" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/book_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
+        <div class="vcell" data-task="book" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/book_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
+        <div class="vcell" data-task="book" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/book_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
       </div>
     </div>
     <div data-panel="task" data-key="spill" style="display:none">
       <p class="taskdesc">Pick the ball, place it in the bowl, carry to the cutting board without spilling.</p>
       <div class="taskgrid">
-        <div class="vcell ours" data-task="spill" data-method="ours"><video preload="none" poster="static/videos/posters/spill_ours.jpg" controls muted loop playsinline><source src="static/videos/spill_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
-        <div class="vcell" data-task="spill" data-method="sync"><video preload="none" poster="static/videos/posters/spill_sync.jpg" controls muted loop playsinline><source src="static/videos/spill_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
-        <div class="vcell" data-task="spill" data-method="async"><video preload="none" poster="static/videos/posters/spill_async.jpg" controls muted loop playsinline><source src="static/videos/spill_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
-        <div class="vcell" data-task="spill" data-method="rtc"><video preload="none" poster="static/videos/posters/spill_rtc.jpg" controls muted loop playsinline><source src="static/videos/spill_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
+        <div class="vcell ours" data-task="spill" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+        <div class="vcell" data-task="spill" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
+        <div class="vcell" data-task="spill" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
+        <div class="vcell" data-task="spill" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
       </div>
     </div>
     <div data-panel="task" data-key="catch" style="display:none">
       <p class="taskdesc">Reach out and grasp the upright book.</p>
       <div class="taskgrid">
-        <div class="vcell ours" data-task="catch" data-method="ours"><video preload="none" poster="static/videos/posters/catch_ours.jpg" controls muted loop playsinline><source src="static/videos/catch_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
-        <div class="vcell" data-task="catch" data-method="sync"><video preload="none" poster="static/videos/posters/catch_sync.jpg" controls muted loop playsinline><source src="static/videos/catch_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
-        <div class="vcell" data-task="catch" data-method="async"><video preload="none" poster="static/videos/posters/catch_async.jpg" controls muted loop playsinline><source src="static/videos/catch_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
-        <div class="vcell" data-task="catch" data-method="rtc"><video preload="none" poster="static/videos/posters/catch_rtc.jpg" controls muted loop playsinline><source src="static/videos/catch_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
+        <div class="vcell ours" data-task="catch" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+        <div class="vcell" data-task="catch" data-method="sync"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_sync.mp4" type="video/mp4"></video><div class="lab">Flow, Synchronous</div></div>
+        <div class="vcell" data-task="catch" data-method="async"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_async.mp4" type="video/mp4"></video><div class="lab">Naive Async (TE)</div></div>
+        <div class="vcell" data-task="catch" data-method="rtc"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_rtc.mp4" type="video/mp4"></video><div class="lab">Train-Time RTC</div></div>
       </div>
     </div>
   </div>
@@ -213,32 +213,32 @@
     <button class="tab active" data-tab="tele" data-key="box">Insert Box</button>
     <button class="tab" data-tab="tele" data-key="book">Tidy Up Book</button>
     <button class="tab" data-tab="tele" data-key="spill">Don't Spill</button>
-    <button class="tab" data-tab="tele" data-key="catch">Catch book</button>
+    <button class="tab" data-tab="tele" data-key="catch">Catch Book</button>
     <button class="btn-sm playall" data-group="tele" style="margin-left:auto">▶ Play all</button>
 </div>
     <div data-tabgroup="tele">
       <div data-panel="tele" data-key="box">
         <div class="taskgrid uniform">
           <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_box.jpg" controls muted loop playsinline><source src="static/videos/teleop_box.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
-          <div class="vcell ours" data-task="box" data-method="ours"><video preload="none" poster="static/videos/posters/box_ours.jpg" controls muted loop playsinline><source src="static/videos/box_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+          <div class="vcell ours" data-task="box" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/box_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
         </div>
       </div>
       <div data-panel="tele" data-key="book" style="display:none">
         <div class="taskgrid uniform">
           <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_book.jpg" controls muted loop playsinline><source src="static/videos/teleop_book.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
-          <div class="vcell ours" data-task="book" data-method="ours"><video preload="none" poster="static/videos/posters/book_ours.jpg" controls muted loop playsinline><source src="static/videos/book_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+          <div class="vcell ours" data-task="book" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/book_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
         </div>
       </div>
       <div data-panel="tele" data-key="spill" style="display:none">
         <div class="taskgrid uniform">
           <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_spill.jpg" controls muted loop playsinline><source src="static/videos/teleop_spill.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
-          <div class="vcell ours" data-task="spill" data-method="ours"><video preload="none" poster="static/videos/posters/spill_ours.jpg" controls muted loop playsinline><source src="static/videos/spill_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+          <div class="vcell ours" data-task="spill" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/spill_ours.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
         </div>
       </div>
       <div data-panel="tele" data-key="catch" style="display:none">
         <div class="taskgrid uniform">
           <div class="vcell"><video preload="none" poster="static/videos/posters/teleop_catch.jpg" controls muted loop playsinline><source src="static/videos/teleop_catch.mp4" type="video/mp4"></video><div class="lab">Human teleoperation</div></div>
-          <div class="vcell ours" data-task="catch" data-method="ours"><video preload="none" poster="static/videos/posters/catch_ours_tele.jpg" controls muted loop playsinline><source src="static/videos/catch_ours_tele.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
+          <div class="vcell ours" data-task="catch" data-method="ours"><video preload="metadata" controls muted loop playsinline><source src="static/videos/catch_ours_tele.mp4" type="video/mp4"></video><div class="lab">πR² (ours)</div></div>
         </div>
       </div>
     </div>

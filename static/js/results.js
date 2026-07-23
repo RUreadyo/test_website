@@ -7,7 +7,7 @@
   const c = document.getElementById("results-canvas");
   if (!c) return;
   const ctx = c.getContext("2d");
-  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill", "Catch book"];
+  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill", "Catch Book"];
   const METHODS = [
     { n: "Flow, Synchronous", col: "#b8c0cc" },
     { n: "Naive Async (TE)", col: "#7f8b9c" },
