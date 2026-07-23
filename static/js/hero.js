@@ -80,7 +80,7 @@
 
   function frame(ts) {
     if (last == null) last = ts; const dt = Math.min(0.05, (ts - last) / 1000); last = ts;
-    if (load()) { p += dt * (L / 5); if (p >= L - 1) p = 0; for (const o of waves) drawWave(o, ts); }
+    if (load()) { p += dt * (L / 7.5); if (p >= L - 1) p = 0; for (const o of waves) drawWave(o, ts); }
     requestAnimationFrame(frame);
   }
   window.addEventListener("resize", resize); resize(); requestAnimationFrame(frame);
