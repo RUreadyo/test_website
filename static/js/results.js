@@ -7,7 +7,7 @@
   const c = document.getElementById("results-canvas");
   if (!c) return;
   const ctx = c.getContext("2d");
-  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill", "Catch"];
+  const TASKS = ["Insert Box", "Tidy Up Book", "Don't Spill", "Catch book"];
   const METHODS = [
     { n: "Flow, Synchronous", col: "#b8c0cc" },
     { n: "Naive Async (TE)", col: "#7f8b9c" },
@@ -16,8 +16,8 @@
   ];
   // per task [Spill, Book, Box] x [Sync, NaiveAsync, RTC, ours]
   const DATA = {
-    sr:   { vals: [[11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10], [0, 0, 7, 7]], den: [20, 20, 20, 20], unit: "/20" },
-    prog: { vals: [[56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55], [0, 0, 7, 7]], den: [80, 40, 80, 20], unit: "subgoals" },
+    sr:   { vals: [[11, 12, 10, 16], [4, 7, 8, 12], [4, 7, 9, 10], [4, 2, 5, 11]], den: [20, 20, 20, 20], unit: "/20" },
+    prog: { vals: [[56, 61, 53, 68], [9, 15, 18, 24], [16, 30, 45, 55], [4, 2, 5, 11]], den: [80, 40, 80, 20], unit: "subgoals" },
   };
   let metric = "sr";
 
