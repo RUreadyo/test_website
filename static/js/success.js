@@ -26,4 +26,4 @@ window.SUCCESS = {
   },
 };
 /* main 2x2 rollout index (1-based) chosen per task: ours succeeds, baselines fail */
-window.MAIN_N = { spill: 1, book: 11, box: { ours: 1, sync: 6, async: 6, rtc: 6 }, catch: 1 };
+window.MAIN_N = { spill: 1, book: 11, box: { ours: 1, sync: 6, async: 6, rtc: 6 }, catch: { ours: 8, sync: 1, async: 1, rtc: 1 } };
